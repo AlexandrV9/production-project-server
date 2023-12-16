@@ -1,7 +1,6 @@
 // See https://github.com/typicode/json-server#module
 const jsonServer = require("json-server");
 const { readFileSync } = require("fs");
-const path = require("path");
 
 const server = jsonServer.create();
 
@@ -25,6 +24,30 @@ server.use(
     "/api/*": "/$1",
   })
 );
+
+server.post('/login', (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const db = JSON.parse(
+      readFileSync("db.json", 'UTF-8'),
+    );
+    const { users = [] } = db;
+
+    const userFromBd = users.find(
+      (user) => user.username === username && user.password === password,
+    );
+
+    if (userFromBd) {
+      return res.json(userFromBd);
+    }
+
+    return res.status(403).json({ message: 'User not found' });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({ message: e.message });
+  }
+});
+
 server.use(router);
 server.listen(3000, () => {
   console.log("JSON Server is running");
