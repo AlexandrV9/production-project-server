@@ -44,7 +44,7 @@ server.use((req, res, next) => {
 });
 
 server.get((req, res) => {
-  res.send("Server is running...")
+  res.send("Server is running")
 })
 
 server.use(router);
@@ -53,3 +53,5 @@ server.use(router);
 server.listen(8000, () => {
   console.log("server is running on 8000 port");
 });
+
+module.exports = server;
