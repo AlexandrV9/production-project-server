@@ -1,6 +1,7 @@
 // See https://github.com/typicode/json-server#module
 const jsonServer = require("json-server");
 const { readFileSync } = require("fs");
+const cors = require('cors')
 
 const server = jsonServer.create();
 
@@ -16,6 +17,7 @@ const router = jsonServer.router("db.json");
 
 const middlewares = jsonServer.defaults();
 server.use(jsonServer.bodyParser);
+server.use(cors())
 
 server.use(middlewares);
 // Add this before server.use(router)
@@ -49,7 +51,7 @@ server.post('/login', (req, res) => {
 });
 
 server.use(async (req, res, next) => {
-  if (!req.headers.authorization) {
+  if (!req.headers.Authorization) {
     return res.status(403).json({ message: 'Auth error' });
   }
   next();
