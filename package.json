@@ -1,16 +1,12 @@
 {
-  "name": "production-project-server",
+  "name": "json-server-vercel",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Deploy JSON Server to Vercel",
+  "main": "api/server.js",
   "scripts": {
-    "start": "node ./index.js"
+    "start": "node api/server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "cors": "^2.8.5",
     "json-server": "^0.17.4"
   }
 }
