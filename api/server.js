@@ -48,7 +48,15 @@ server.post('/login', (req, res) => {
   }
 });
 
+server.use(async (req, res, next) => {
+  if (!req.headers.authorization) {
+    return res.status(403).json({ message: 'Auth error' });
+  }
+  next();
+});
+
 server.use(router);
+
 server.listen(3000, () => {
   console.log("JSON Server is running");
 });
