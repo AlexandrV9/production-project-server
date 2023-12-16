@@ -1,5 +1,7 @@
 // See https://github.com/typicode/json-server#module
-const jsonServer = require('json-server')
+const jsonServer = require('json-server');
+const { readFileSync } = require("fs");
+const path = require("path");
 
 const server = jsonServer.create()
 
