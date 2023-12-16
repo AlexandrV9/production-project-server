@@ -51,7 +51,7 @@ server.post('/login', (req, res) => {
 });
 
 server.use(async (req, res, next) => {
-  if (!req.headers.Authorization) {
+  if (!req.headers.authorization) {
     return res.status(403).json({ message: 'Auth error' });
   }
   next();
