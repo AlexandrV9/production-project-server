@@ -1,41 +1,37 @@
-const { readFileSync } = require('fs');
-const jsonServer = require('json-server');
-const path = require('path');
+const { readFileSync } = require("fs");
+const jsonServer = require("json-server");
+const path = require("path");
 
 const server = jsonServer.create();
 
-const router = jsonServer.router(path.resolve(__dirname, 'db.json'));
+const router = jsonServer.router(path.resolve(__dirname, "db.json"));
 
 server.use(jsonServer.defaults({}));
 server.use(jsonServer.bodyParser);
 
-server.use(async (req, res, next) => {
-  await new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-    }, 800);
-  });
-  next();
-});
+server.use(
+  jsonServer.rewriter({
+    "/api/*": "/$1",
+  })
+);
 
-
-server.post('/login', (req, res) => {
+server.post("/login", (req, res) => {
   try {
     const { username, password } = req.body;
     const db = JSON.parse(
-      readFileSync(path.resolve(__dirname, 'db.json'), 'UTF-8'),
+      readFileSync(path.resolve(__dirname, "db.json"), "UTF-8")
     );
     const { users = [] } = db;
 
     const userFromBd = users.find(
-      (user) => user.username === username && user.password === password,
+      (user) => user.username === username && user.password === password
     );
 
     if (userFromBd) {
       return res.json(userFromBd);
     }
 
-    return res.status(403).json({ message: 'User not found' });
+    return res.status(403).json({ message: "User not found" });
   } catch (e) {
     console.log(e);
     return res.status(500).json({ message: e.message });
@@ -45,22 +41,19 @@ server.post('/login', (req, res) => {
 // eslint-disable-next-line consistent-return
 server.use(async (req, res, next) => {
   if (!req.headers.authorization) {
-    return res.status(403).json({ message: 'Auth error' });
+    return res.status(403).json({ message: "Auth error" });
   }
   next();
 });
 
 server.use(router);
 
-server.listen(8000, () => {
-  console.log('Server is running on 8000 port');
+server.listen(3000, () => {
+  console.log("Server is running on 3000 port");
 });
 
 // Export the Server API
 module.exports = server;
-
-
-
 
 // // See https://github.com/typicode/json-server#module
 // const jsonServer = require('json-server')
