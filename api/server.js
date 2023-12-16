@@ -13,8 +13,7 @@ const server = jsonServer.create()
 // const db = JSON.parse(data);
 // const router = jsonServer.router(db)
 
-// Comment out to allow write operations
-const router = jsonServer.router('db.json')
+const router = jsonServer.router(path.resolve(__dirname, 'db.json'));
 
 const middlewares = jsonServer.defaults()
 
